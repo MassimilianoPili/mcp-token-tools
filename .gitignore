@@ -9,3 +9,6 @@ target/
 .project
 .classpath
 CLAUDE.md
+
+.env
+.env.*
