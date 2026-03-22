@@ -20,7 +20,7 @@ jobs:
           curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz | tar xz -C /opt
           echo "/opt/apache-maven-3.9.9/bin" >> $GITHUB_PATH
       - name: Deploy to Gitea Registry
-        run: mvn deploy -DskipTests
+        run: mvn deploy -DskipTests -Dcentral-publishing.skip=true -Dgpg.skip=true
         env:
           MAVEN_USERNAME: sol_root
           MAVEN_PASSWORD: ${{ secrets.MAVEN_REGISTRY_TOKEN }}
