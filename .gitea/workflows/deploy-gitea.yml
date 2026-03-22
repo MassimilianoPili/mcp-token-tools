@@ -12,13 +12,36 @@ jobs:
           java-version: "21"
           distribution: "temurin"
           cache: "maven"
-          server-id: gitea
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
       - name: Install Maven
         run: |
           curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz | tar xz -C /opt
           echo "/opt/apache-maven-3.9.9/bin" >> $GITHUB_PATH
+      - name: Configure Maven settings
+        run: |
+          cat > ~/.m2/settings.xml << 'SETTINGS'
+          <settings>
+            <servers>
+              <server>
+                <id>gitea</id>
+                <username>${env.MAVEN_USERNAME}</username>
+                <password>${env.MAVEN_PASSWORD}</password>
+              </server>
+              <server>
+                <id>central</id>
+                <username>dummy</username>
+                <password>dummy</password>
+              </server>
+            </servers>
+            <mirrors>
+              <mirror>
+                <id>maven-default-http-blocker</id>
+                <mirrorOf>!gitea,external:http:*</mirrorOf>
+                <url>http://0.0.0.0/</url>
+                <blocked>true</blocked>
+              </mirror>
+            </mirrors>
+          </settings>
+          SETTINGS
       - name: Deploy to Gitea Registry
         run: mvn deploy -DskipTests -Dcentral-publishing.skip=true -Dgpg.skip=true
         env:
