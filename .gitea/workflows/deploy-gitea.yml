@@ -63,6 +63,11 @@ jobs:
             </activeProfiles>
           </settings>
           SETTINGS
+      - name: Set version from tag
+        run: |
+          VERSION=${GITHUB_REF_NAME#g}
+          echo "Deploying version: $VERSION"
+          mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false -q
       - name: Deploy to Gitea Registry
         run: mvn deploy -DskipTests -Dcentral-publishing.skip=true -Dgpg.skip=true
         env:
