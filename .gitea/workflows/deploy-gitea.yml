@@ -18,6 +18,7 @@ jobs:
           echo "/opt/apache-maven-3.9.9/bin" >> $GITHUB_PATH
       - name: Configure Maven settings
         run: |
+          mkdir -p ~/.m2
           cat > ~/.m2/settings.xml << 'SETTINGS'
           <settings>
             <servers>
@@ -40,6 +41,26 @@ jobs:
                 <blocked>true</blocked>
               </mirror>
             </mirrors>
+            <profiles>
+              <profile>
+                <id>gitea-registry</id>
+                <repositories>
+                  <repository>
+                    <id>gitea</id>
+                    <url>http://gitea:3000/api/packages/sol_root/maven</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                  </repository>
+                  <repository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                  </repository>
+                </repositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>gitea-registry</activeProfile>
+            </activeProfiles>
           </settings>
           SETTINGS
       - name: Deploy to Gitea Registry
