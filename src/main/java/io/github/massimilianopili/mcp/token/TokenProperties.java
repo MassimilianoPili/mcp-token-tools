@@ -27,6 +27,12 @@ public class TokenProperties {
     private double sonnetCacheReadPrice = 0.3;
     private double sonnetCacheWritePrice = 0.75;
 
+    // HikariCP pool
+    private int dbPoolSize = 30;
+    private int dbMinimumIdle = 0;
+    private long dbConnectionTimeout = 10_000;
+    private long dbLeakDetectionThreshold = 60_000;
+
     // Budget
     private double budgetWarningThreshold = 0.8;
     private int reportMaxRows = 20;
@@ -44,6 +50,18 @@ public class TokenProperties {
 
     public String getDbCredential() { return dbCredential; }
     public void setDbCredential(String dbCredential) { this.dbCredential = dbCredential; }
+
+    public int getDbPoolSize() { return dbPoolSize; }
+    public void setDbPoolSize(int dbPoolSize) { this.dbPoolSize = dbPoolSize; }
+
+    public int getDbMinimumIdle() { return dbMinimumIdle; }
+    public void setDbMinimumIdle(int dbMinimumIdle) { this.dbMinimumIdle = dbMinimumIdle; }
+
+    public long getDbConnectionTimeout() { return dbConnectionTimeout; }
+    public void setDbConnectionTimeout(long dbConnectionTimeout) { this.dbConnectionTimeout = dbConnectionTimeout; }
+
+    public long getDbLeakDetectionThreshold() { return dbLeakDetectionThreshold; }
+    public void setDbLeakDetectionThreshold(long dbLeakDetectionThreshold) { this.dbLeakDetectionThreshold = dbLeakDetectionThreshold; }
 
     public String getDefaultModel() { return defaultModel; }
     public void setDefaultModel(String defaultModel) { this.defaultModel = defaultModel; }
